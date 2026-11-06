@@ -1,0 +1,44 @@
+# sudo apt update
+# sudo apt install poppler-utils webp ghostscript
+# sudo apt install postgresql postgresql-contrib
+# sudo apt install nodejs npm
+# sudo apt install redis-server -y
+# sudo apt install nginx
+# sudo apt install certbot python3-certbot-nginx -y
+asgiref
+certifi
+channels
+charset-normalizer
+Django
+django-cors-headers
+django-crontab
+djangorestframework
+google-auth
+moviepy
+natsort
+pandas
+openpyxl
+protobuf
+pypdf
+python-dotenv
+requests
+rsa
+urllib3
+daphne
+channels_redis
+celery
+redis<6
+tblib
+Pillow
+reportlab
+numpy
+defusedxml
+pdfminer.six
+PyMuPDF
+opencv-contrib-python
+psycopg[binary]
+django-webpack-loader
+whitenoise
+django-storages
+boto3
+sentry-sdk

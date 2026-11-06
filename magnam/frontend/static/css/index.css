@@ -1,0 +1,125 @@
+/* ================================
+   FONT REGISTRATION
+   ================================ */
+
+@font-face {
+    font-family: "CCWildWordsLower Regular";
+    src: url("../fonts/CCWildWordsLower Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ================================
+   CSS RESET (MINIMAL & SAFE)
+   ================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ================================
+   ROOT APP CONTAINER
+   ================================ */
+
+#app {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ================================
+   GLOBAL BODY STYLES
+   ================================ */
+
+body {
+    font-family: "CCWildWordsLower Regular", "Noto Sans JP", sans-serif;
+    font-size: clamp(14px, 0.85vw, 18px);
+    line-height: 1.5;
+
+    /* Light mode base (will be overridden by ThemeContext later) */
+    background-color: #F7F9F8;
+    color: #1F2A27;
+
+    /* Smooth scrolling for calm gallery browsing */
+    scroll-behavior: smooth;
+
+    /* Prevent horizontal scroll bugs */
+    overflow-x: hidden;
+}
+
+/* ================================
+   MEDIA ELEMENT NORMALIZATION
+   ================================ */
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* ================================
+   FORM ELEMENT INHERITANCE
+   ================================ */
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+/* Remove default button styles (Material UI will handle visuals) */
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* ================================
+   LINK DEFAULTS (NON-DOMINANT)
+   ================================ */
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ================================
+   ACCESSIBILITY / QUALITY OF LIFE
+   ================================ */
+
+/* Reduce motion if user prefers */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ================================
+   FUTURE NOTES (DO NOT DELETE)
+   ================================ */
+
+/*
+  - Do NOT add component styling here.
+  - All colors, spacing, shadows must come from ThemeContext.
+  - This file should remain boring and stable.
+*/

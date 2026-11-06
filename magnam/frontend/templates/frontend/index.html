@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1200" />
+
+    <!-- Website Metadata -->
+    <title>{{ SEO_TITLE }}</title>
+    <meta
+      name="description"
+      content="{{ SEO_DESCRIPTION }}"
+    />
+
+    <!-- Canonical -->
+    <link
+      rel="canonical"
+      href="https://studiomagnam.com{{ request.path }}"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://studiomagnam.com{{ request.path }}"
+    />
+    <meta property="og:site_name" content="MaGNaM" />
+    <meta property="og:title" content="{{ SEO_TITLE }}" />
+    <meta
+      property="og:description"
+      content="{{ SEO_DESCRIPTION }}"
+    />
+    <meta
+      property="og:image"
+      content="https://studiomagnam.com/static/images/favicon.webp"
+    />
+
+    <!-- X / Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ SEO_TITLE }}" />
+    <meta
+      name="twitter:description"
+      content="{{ SEO_DESCRIPTION }}"
+    />
+    <meta
+      name="twitter:image"
+      content="https://studiomagnam.com/static/images/favicon.webp"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "MaGNaM",
+      "url": "https://studiomagnam.com/"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MaGNaM",
+      "url": "https://studiomagnam.com/",
+      "logo": "https://studiomagnam.com/static/images/favicon.webp"
+    }
+    </script>
+
+    {% load static %}
+    {% load webpack_loader %}
+
+    <link
+      rel="icon"
+      type="image/png"
+      href="{% static 'images/favicon.webp' %}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/index.css' %}"
+    />
+  </head>
+
+  <body>
+    <div id="main">
+      <div id="app"></div>
+    </div>
+
+    <script>
+      window.__CONFIG__ = {
+        GOOGLE_CLIENT_ID: "{{ GOOGLE_CLIENT_ID }}"
+      };
+    </script>
+
+    {% render_bundle 'main' %}
+  </body>
+</html>

@@ -1,0 +1,200 @@
+This is my plan to write a privacy policy and a Terms of Service document for my code, and here is all the code I have regarding this matter both in backend and frontend. 
+
+Stage 1 — Inventory everything MaGNaM does with user data
+
+Don't write the Privacy Policy yet.
+
+First we make a list of every place your application collects, stores, processes, sends, or exposes personal information.
+
+For MaGNaM, I already know some of these:
+
+Django accounts
+username
+email
+password hash
+profile information
+profile images
+Google Login
+Google email / email_verified
+Django sessions
+CSRF cookies
+IP addresses/server logs
+user-uploaded manga
+portfolio content
+competition submissions
+potentially comments/messages/etc.
+PostgreSQL
+Cloudflare R2
+Cloudflare CDN/security
+email delivery
+potentially Sentry
+Celery/Redis
+server backups, if any
+
+But we shouldn't rely on what I remember. We'll inspect your actual project.
+
+We'll make a table like:
+
+Data	Why collected	Where stored	Who receives it	Retention
+Email	Account/authentication	PostgreSQL	Email provider	Until deletion
+Google email	Google login	PostgreSQL	Google initially	Until deletion
+Manga PDF	User publishing	R2	—	Until deleted
+IP address	Security/logging	Server logs	—	X days
+
+This becomes the foundation of the Privacy Policy.
+
+Stage 2 — Identify the legal basis for each category
+For each type of processing, we'll determine the appropriate GDPR legal basis.
+The GDPR requires the privacy information to explain things including the controller's identity/contact information, purposes of processing and legal basis.
+Typical possibilities are:
+Contract
+For things necessary to provide the MaGNaM account/service.
+For example:
+Creating and maintaining your MaGNaM account.
+Legal obligation
+Only where you actually have a legal obligation to retain/process something.
+Legitimate interests
+Potentially:
+security
+fraud prevention
+abuse prevention
+protecting the service
+technical logging
+But we should not automatically label everything "legitimate interest."
+Consent
+For things where consent is genuinely the appropriate basis, such as certain optional communications/cookies.
+We'll decide this feature by feature.
+
+Stage 3 — Map every third-party service
+This is particularly important for your project.
+We'll make a definitive list.
+For example:
+Google
+You use Google OAuth.
+Your Privacy Policy therefore needs to explain what Google information MaGNaM receives and what you do with it.
+Google specifically requires the Privacy Policy to disclose how Google user data is accessed, used, stored and shared, and requires your actual practices to remain consistent with that policy.
+Cloudflare R2
+Your uploaded files are stored there.
+We'll document:
+what gets stored
+why
+whether objects are public/private
+what Cloudflare receives
+how URLs work
+Cloudflare
+You're already using Cloudflare for:
+DNS
+proxy/CDN
+security
+Bot Fight Mode
+potentially other security features
+We'll determine exactly which Cloudflare services are actually enabled.
+Hetzner
+Your application/server is hosted there.
+We'll determine what personal data exists on the server and what logs are retained.
+Email
+Your Django application sends verification/security emails.
+We'll identify exactly which provider is used in production.
+Sentry
+You currently have Sentry configuration in the project.
+But we won't put Sentry into the Privacy Policy merely because code exists for it.
+If you enable it in production, we document it.
+If you don't use it, we don't claim that you do.
+
+Stage 4 — Determine retention periods
+This is one of the areas where people make bad generic policies.
+Don't write:
+"We retain your data as long as necessary."
+for everything.
+We'll determine actual periods.
+For example, your existing code already has a concrete retention mechanism for unverified accounts:
+non_verified_since -> countdown -> automatic deletion
+We'll document the actual period you configured.
+For other things we'll establish sensible policies, such as:
+account data → until account deletion
+uploaded content → until deletion/removal
+security logs → X days
+transactional records → X years where legally required
+abandoned/unverified accounts → your configured period
+And importantly, the policy should match what your software actually does.
+
+Stage 5 — Build the Privacy Policy
+Only after stages 1–4 will we write:
+https://studiomagnam.com/privacy/
+I'd structure it approximately like this:
+Who we are
+Scope of this Privacy Policy
+Information we collect
+Information provided through Google Sign-In
+How we use personal data
+Legal bases for processing
+User-generated content
+Cookies and sessions
+Server logs and security
+Third-party service providers
+Cloudflare
+Google
+Hetzner
+Email services
+Data storage and international transfers
+Data retention
+Account deletion
+Your GDPR rights
+Data security
+Children/minors
+Changes to this policy
+Contact information
+We won't include sections that don't actually apply.
+
+Stage 6 — Build the Terms of Service
+Then we'll create:
+https://studiomagnam.com/terms/
+This is a different document.
+For MaGNaM, I'd structure it around:
+Acceptance of Terms
+Eligibility
+MaGNaM accounts
+User responsibilities
+User-generated content
+Copyright and intellectual property
+Uploading manga/portfolio material
+Permissions you grant MaGNaM
+Prohibited content
+Content moderation
+Copyright complaints
+Competitions
+Virtual currency
+Purchases/payments — if applicable
+Account suspension/termination
+Deletion of content/accounts
+Availability of the service
+Third-party services
+Limitation of liability
+Changes to the Terms
+Governing law
+Contact
+Because MaGNaM is a user-content platform, this is much more important than using a generic "personal website Terms of Service."
+Also, because you're operating in the EU and MaGNaM hosts user-generated content, we'll specifically examine whether/how the Digital Services Act provisions apply to your particular platform. The EU's DSA includes mechanisms for users to report allegedly illegal content, for example.
+We shouldn't blindly copy a DSA template either; we'll determine which obligations actually apply to your size/type of service.
+
+Stage 7 — Google OAuth
+Once the documents are actually live:
+Your Google configuration becomes
+Homepage
+https://studiomagnam.com/
+Privacy Policy
+https://studiomagnam.com/privacy/
+Terms of Service
+https://studiomagnam.com/terms/
+Authorized domain
+studiomagnam.com
+Google requires these domains to be authorized/verified for production configuration.
+Then we verify the website itself.
+Google currently says production external apps need to have the required branding/privacy information and that the homepage must identify the app, describe its functionality, and link to the Privacy Policy.
+
+Stage 8
+Then change the OAuth app from Testing → In production on the Google OAuth Audience page.
+Google determines whether verification is required -> If required → submit verification
+
+
+I also shared two markdown documents with you, one for privacy policy and one for Terms of Service. I took wordpress's public templates and edited them to fit my MaGNaM website's state. Go over those two markdown files and tell me if those are okay to put it in my website and submit for a google authentication app verification.

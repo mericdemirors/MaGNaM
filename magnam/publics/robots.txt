@@ -1,0 +1,44 @@
+User-agent: *
+
+# Allow crawling of the public website
+Allow: /
+
+# Allow the public account page
+Allow: /account/
+
+# Public content
+Allow: /news/
+Allow: /manga/
+Allow: /portfolio/
+Allow: /competition/
+
+# Block all API endpoints
+Disallow: /api/
+
+# Block all create/edit/delete functionality
+Disallow: /create
+Disallow: /create-
+Disallow: /edit
+Disallow: /edit-
+Disallow: /delete
+Disallow: /delete-
+
+# Block known content-management routes
+Disallow: /portfolio/create-portfolio/
+Disallow: /manga/create-manga/
+Disallow: /manga/create-chapter/
+Disallow: /competition/create-competition/
+Disallow: /portfolio/edit-portfolio/
+Disallow: /manga/edit-manga/
+Disallow: /manga/edit-chapter/
+Disallow: /competition/edit-competition/
+Disallow: /portfolio/delete-portfolio/
+Disallow: /manga/delete-manga/
+Disallow: /manga/delete-chapter/
+Disallow: /competition/delete-competition/
+
+# Block profile stuff
+Disallow: /profile/
+
+# Sitemap
+Sitemap: https://studiomagnam.com/sitemap.xml

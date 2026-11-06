@@ -1,0 +1,124 @@
+Creator Platform — Frontend Design Blueprint
+
+## 1. Product Identity
+* Core problem: Turkish creators lack a unified platform for content creation, collaboration, and exhibition. Multiple fragmented communities exist; this platform unifies them.
+* Value proposition: One gathering place for Turkish creators and consumers.
+* Content vs Identity: Content-centered. Works > creator identity.
+* Target users:
+-- Primary: emerging Turkish creators
+-- Secondary: content consumers (readers, viewers)
+-- Tertiary: organizers/power users
+* Homepage philosophy: Focus on showcasing content and guiding exploration.
+
+## 2. Default User Flow
+* Creators as default users: upload portfolios/mangas, explore competitions.
+* Guest access: full browsing access; can explore contents.
+* First 30 seconds priority: clarity, low cognitive load, easy navigation.
+* Action hierarchy:
+-- Upload content (Portfolio, Manga)
+-- Explore content (search, browse)
+
+## 3. Emotional Tone & Brand Personality
+* Primary tone: Clean & minimal (content-first)
+* Secondary tone: Warm & community-driven
+* Mood & feel:
+-- Friendly but not childish
+-- Professional enough to communicate credibility
+-- Calm, pastel aesthetic, gallery-like, image-first
+* User engagement: interactive gallery, not static/museum-like
+* Audience adaptability: accessible for children and adults; no intimidation
+
+## 4. Homepage Visual Hierarchy
+* Top: Rotating news carousel (anime/manga news)
+-- Informational only, visual, minimal text
+* Below: Large navigation cards
+-- Portfolio, Manga, Competitions
+-- Minor sections for other items (non-dominant)
+* Navigation bar: simple, top-right profile/login
+* No text paragraphs on the homepage — purely visual, intuitive layout
+* No scroll in the homepage, everything is visible
+* Homepage goal: expose all main platform features visually; instant comprehension
+* Logging in and registering is not asked directly and not emphasized
+
+## 5. Navigation Structure & Mental Model
+* Content-type first navigation: Portfolio, Manga, Competitions
+* No creator/consumer split — all users see same content
+* Search & filters:
+-- Located inside each content space
+-- Portfolio search only inside Portfolio, Manga search inside Manga, etc.
+* Gallery/Archive pages:
+-- Pinterest-like visual grid
+-- Top: search bar, filtering tags, sorting options
+-- infinite scroll with same sized cards with some metadata
+* Cross-content discovery:
+-- No feed mixing Portfolio & Manga
+-- Allowed via user profile pages only
+* Competitions: visible, but secondary to Portfolio/Manga
+
+## 6. Color Palette & Theme
+* Base palette: cool pastel neutrals (light mode)
+* Accent color: light pastel jade (subtle, non-dominant)
+* Dark mode: optional, same pastel-friendly system
+-- Invert/lighten/darken backgrounds while maintaining calm
+* Future customization:
+-- Users can select own background, palette, fonts
+-- ThemeContext-based system, all components consume theme variables
+* Tone & emotional alignment: calm, friendly-professional, gallery-first
+* Subtle space differentiation between sections, but not dominant color coding
+
+## 7. Typography
+* Primary font: standard manga scanlation font (familiar to audience)
+* Secondary fonts: optional, similar to manga fonts for other content
+* Text hierarchy: bolding + font sizes
+* Reading style: comfortable for short metadata and longer descriptions
+* Design goal: text is familiar, unobtrusive, and readable.
+
+## 8. Spacing, Density & Layout Rhythm
+* Card sizes: fixed dimensions (uniform grid) to maintain clean gallery layout
+-- Users required to upload minimum-acceptable dimensions
+* Spacing: generous (calm, airy)
+-- Aligns with pastel aesthetic
+* Scrolling: calm, infinite scroll
+* Layout: spacious for featured areas; consistent for galleries; avoid clutter
+* Goal: maintain calm, low-cognitive-load experience
+
+## 9. Component-Level Design Philosophy
+* Base components: use existing Material UI wrappers (buttons, cards, search bars, navbar, carousel)
+* Modifications: minor shape changes, hover effects to match gallery + pastel aesthetic
+* Hover / Interaction: subtle scale/shadow; optional future manga-inspired hatch effects
+* Reusability: all components shared across content types
+* Theme compliance: all components consume ThemeContext variables (colors, spacing)
+* Future expandability: supports dark mode and user-customizable themes
+* Cards: fixed size, minimal metadata, hover interaction subtle
+* Filters/Search bars: integrated at top of content spaces; optional sticky/floating later
+* Navigation: minimal, consistent, clearly aligned with content-type-first model
+
+## 10. Frontend Architecture
+* Recommended structure: by component type
+-- componentWrappers/: reusable UI components (buttons, cards, search bars, navbar, carousel)
+-- pages/: content spaces (Portfolio, Manga, Competition, News, Profile)
+-- context/: ThemeContext, AuthContext
+-- utils/: hooks, helpers (infinite scroll, formatting, etc.)
+* Material UI wrappers: used as single source of truth; no exceptions initially
+* Theme management: ThemeContext provides light/dark mode + future user customization
+* Component dependencies: pages reference components/; components do not reference page-specific logic
+
+## 11. Theme / Color Implementation Plan
+* Single source of truth: ThemeContext
+* Variables:
+-- Background colors
+-- Text colors
+-- Card backgrounds
+-- Borders & shadows
+-- Accent color
+* Light mode: pastel, airy, gallery-first
+* Dark mode: maintain pastel vibe, low fatigue
+* User customization ready: all components consume theme dynamically
+* Implementation notes:
+-- Wrap App.js in ThemeProvider
+-- Use Material UI theming + sx or styled-components for dynamic values
+
+## 12. Interaction / Micro-UX Decisions
+* Hover effects: subtle, minimal
+* Infinite scroll: calm, no abrupt jumps
+* Future decorative effects: small manga-inspired shadows or subtle animations

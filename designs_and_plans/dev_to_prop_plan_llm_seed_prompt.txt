@@ -1,0 +1,589 @@
+I have a Django react project in the development level and now I want to switch to a complete production level. Below is the plan I want to follow and here are some information you may need:
+a. I do Django for backend, React for frontend and ngrog when I need to test with a friend
+b. I have sqlite for a database and for the storage I use a local folder
+
+0. Target End State (What you are building toward)
+
+Before any changes, it helps to be very clear about the final architecture:
+
+Final Production Architecture
+Users
+  │
+  ▼
+Domain (magnam.com)
+  │
+  ▼
+Reverse Proxy (Nginx)
+  │
+  ├── React Frontend (static build)
+  │
+  └── Django Backend (API server)
+          │
+          ├── PostgreSQL (database)
+          ├── Redis (optional: messaging / caching / websockets)
+          └── Object Storage (PDFs, images, uploads)
+Key idea:
+
+Your server should become stateless
+
+It should NOT permanently store PDFs/images locally
+It should NOT rely on SQLite
+It should be replaceable at any time
+1. Current State (What you have now)
+
+You currently have:
+
+Application structure
+Django backend (runserver)
+React frontend (likely dev server)
+SQLite database
+Local filesystem storage for PDFs/images
+ngrok for external access
+Problems in current setup
+Not production-safe (runserver, SQLite)
+File storage is tied to machine
+No separation of concerns
+No deployment reproducibility
+No environment management
+2. Step 1 — “Production-Concept Refactor” (Still local)
+Goal
+
+Turn your project into something that behaves like production, but still runs on your machine.
+
+This step is about architecture change, not hosting yet.
+
+2.1 Split development vs production configuration
+
+You introduce a clear separation:
+
+Development mode (what you have now)
+Production mode (future server behavior)
+What changes conceptually:
+Debug behavior becomes environment-controlled
+Settings become environment-driven
+No hardcoded paths (like your current /home/.../magnam_database)
+2.2 Remove dependency on local file system for “data”
+
+You currently store:
+
+PDFs
+Images
+
+locally in a folder
+
+Replace conceptually with:
+“Media storage layer”
+
+This layer should NOT care where files go:
+
+Local disk (temporary dev)
+Cloud storage (production)
+2.3 Replace SQLite as a “learning dependency”
+
+SQLite is fine for:
+
+development
+testing
+prototypes
+
+But production requires:
+
+concurrent writes
+reliability
+backups
+scalability
+
+So conceptually you move to:
+
+Database abstraction layer:
+Development: SQLite (temporary)
+Production: PostgreSQL (real system)
+2.4 Introduce environment-based configuration system
+
+Instead of hardcoded values:
+
+database location
+secret keys
+storage paths
+
+You switch to:
+
+environment-driven configuration
+
+This allows:
+
+same codebase in dev + prod
+safe deployment
+2.5 Frontend production concept
+
+React should stop being a “dev server app”.
+
+Instead:
+
+React becomes a static build artifact
+Served like a website (not a dev server)
+
+This is important because:
+
+production React is just HTML/CSS/JS files
+no Node server needed in production
+3. Step 2 — Introduce Production Services Locally (Simulation Stage)
+Goal
+
+Make your laptop behave like a real server environment.
+
+3.1 PostgreSQL
+Goal
+Replace:
+SQLite
+with:
+PostgreSQL
+3.2 Production Application Server
+Goal
+Replace:
+python manage.py runserver
+with a real application server.
+
+What changes
+Before:
+Browser -> runserver
+After:
+Browser -> Gunicorn/Daphne -> Django
+
+3.3 Nginx
+Goal
+Introduce a traffic manager.
+What changes
+Before:
+Browser -> Django
+After:
+Browser -> Nginx -> Django
+
+Responsibilities
+Static files
+Instead of:
+Django → serves JS/CSS
+Nginx serves them directly.
+Media files
+Instead of:
+Django → serves PDFs/images
+Nginx serves them directly.
+API traffic
+Forward:
+/api/*
+to Django.
+WebSocket traffic
+Forward:
+/ws/*
+to Channels.
+Success criteria
+You visit:
+localhost
+and all requests flow through Nginx.
+3.4 Storage Abstraction
+Goal
+
+Stop caring where files are stored.
+
+Current
+View -> MEDIA_ROOT
+Your code knows files live on disk.
+Target
+View -> Storage Backend
+        │
+        ├── Local
+        └── Cloudflare R2
+The application no longer knows where files go.
+Storage & Production Migration Roadmap
+
+Stage 1 — Introduce Storage Abstraction
+Goal
+Remove the assumption that files live on the local filesystem.
+Current architecture:
+Application -> MEDIA_ROOT
+      │
+Local Folder
+Target architecture:
+Application -> Storage Interface
+      │
+      ├── Local Storage
+      └── Cloudflare R2
+What changes
+Introduce Django's storage backend as the single source of truth.
+Nothing should know whether storage is local or cloud.
+Why
+Today your code assumes
+absolute paths exist
+folders exist
+MEDIA_ROOT exists
+Those assumptions disappear once files are stored remotely.
+Code affected
+Mainly configuration.
+Almost no application logic changes.
+
+Stage 2 — Centralize Storage Operations
+Goal
+Move every storage operation into one place.
+Instead of
+Views
+Models
+Celery
+Utilities
+all interacting with storage independently,
+everything becomes
+Application -> StorageService -> Django Storage
+Why
+Currently storage logic is spread throughout the project.
+For example
+Portfolio utilities -> PDF parser -> Celery -> Views -> Serializers
+all know something about storage.
+Instead they should all ask one component.
+Code affected
+A new service layer.
+Very little functionality changes.
+Mostly moving responsibilities.
+
+Stage 3 — Remove Filesystem Assumptions
+Goal
+Remove assumptions that storage is a disk.
+Current examples
+settings.MEDIA_ROOT
+os.listdir(...)
+os.makedirs(...)
+.path
+shutil.rmtree(...)
+Those only work for local files.
+Replace with
+storage operations
+directory iteration
+delete methods
+open()
+save()
+exists()
+etc.
+Why
+Cloud storage has
+no filesystem
+no folders
+no absolute paths
+Everything becomes object keys.
+Code affected
+Mostly helper functions.
+
+Stage 4 — Configure Cloudflare R2
+Goal
+Add the production storage backend.
+Development
+Local Filesystem
+Production
+Cloudflare R2
+Application code stays identical.
+What changes
+Install storage libraries.
+Add production settings.
+Add environment variables.
+Configure credentials.
+Configure bucket.
+Configure endpoints.
+Why
+The application should not care where files live.
+Only configuration changes.
+
+Stage 5 — Adapt the PDF Pipeline
+This is the biggest implementation stage.
+Why it is different
+Your PDF parser doesn't simply upload files.
+It
+reads a PDF -> creates dozens of images -> creates folders -> verifies output -> counts files -> deletes old pages
+This is much more than a normal upload.
+New workflow
+Instead of
+PDF -> Filesystem -> Render -> Filesystem
+it becomes
+PDF -> Temporary Local File -> Renderer -> Temporary Images -> Storage Backend -> Cleanup
+The parser still uses local temporary files because libraries like PyMuPDF, OpenCV, and MoviePy are designed around local file access. The difference is that the source PDF is downloaded from storage first, and the generated page images are uploaded back through the storage interface.
+Code affected
+Mostly the PDF utilities.
+
+Stage 6 — URL Generation
+Goal
+Never manually construct storage URLs.
+Today you have
+obj.image.url
+which is excellent.
+But you also have
+settings.MEDIA_URL + ...
+That only works for local media.
+Target
+Everything asks storage for the URL.
+For example
+Storage -> URL -> Serializer -> Frontend
+Why
+Cloud storage URLs may contain
+CDN domains
+signed URLs
+cache parameters
+custom domains
+The application shouldn't know.
+
+Stage 7 — Production Simulation
+At this point your local machine should mimic production.
+Architecture
+Browser -> Nginx -> Gunicorn / Daphne -> Django
+├── PostgreSQL
+├── Redis
+├── Local Storage Backend
+Notice that local storage is still used.
+The difference is that Django is now using the storage abstraction instead of writing directly to the filesystem.
+This stage verifies that everything works before introducing the cloud.
+
+Stage 8 — Switch Production to Cloudflare R2
+Only the production configuration changes.
+Development
+Storage Backend -> Local Filesystem
+Production
+Storage Backend -> Cloudflare R2
+No application code changes.
+No model changes.
+No serializer changes.
+No frontend changes.
+# Till this point, it was all re-factoring the code changing how the code works
+# After this point its more about where the code works and access to the working code etc
+I have a project I'm trying to switch from development to production. The project has reached the point where the application architecture is largely complete and future work shifts from application development toward deployment and production infrastructure.
+
+Current state:
+
+* Application
+  - Django backend (ASGI)
+  - React frontend
+  - PostgreSQL database
+  - Redis + Celery for asynchronous tasks
+  - Django Channels for WebSockets
+* Deployment Architecture
+  - Designed around Nginx → Daphne → Django
+  - Development and production are separated through dedicated Django settings and environment files.
+  - Different environments can select different storage providers without changing application code.
+* Storage
+  - Complete storage abstraction layer implemented.
+  - Local filesystem provider implemented.
+  - Cloudflare R2 provider implemented.
+  - Application code is storage-independent.
+* File Processing
+  - Standard uploads work directly through the storage abstraction.
+  - More complex workflows (such as PDF parsing) temporarily download files locally, perform processing, then upload generated files back through the storage layer.
+* Project Status
+  - Application features are largely complete.
+  - Production architecture is defined.
+  - Remaining work focuses primarily on deployment, infrastructure, security, monitoring, and operational concerns rather than application functionality.
+
+Stage 1 — Infrastructure Planning
+Goal
+Prepare the production hosting environment before deployment.
+
+1.1 Choose Hosting Provider
+Select the VPS provider:
+Hetzner Cloud
+
+1.2 Define Server Responsibilities
+The production server should only host application services.
+Typical responsibilities:
+Nginx
+Daphne
+Django
+Celery
+Redis
+PostgreSQL (initially)
+The server should not become long-term file storage.
+Large media files remain stored in Cloudflare R2.
+
+1.3 Production Directory Layout
+Design a consistent server layout.
+
+Decide where:
+project code
+logs
+virtual environment
+environment files
+system services
+will permanently live.
+
+1.4 System Services
+Prepare the production services.
+Typical services include:
+Daphne
+Celery Worker
+Nginx
+PostgreSQL
+Redis
+Define startup behavior and automatic restarts.
+
+1.5 Networking Design
+Finalize request flow.
+Internet -> DNS -> VPS -> Nginx -> Daphne -> Django
+Ensure only HTTP(S) is publicly accessible.
+
+Stage 2 — Domain and HTTPS
+Goal
+Expose the application through its public domain using encrypted connections.
+
+2.1 Register Domain
+Choose a registrar.
+Cloudflare Registrar
+
+2.2 Configure DNS
+Suggested structure:
+magnam.com
+www.magnam.com
+api.magnam.com (optional)
+If frontend and backend remain served by the same Django application, a separate API subdomain is optional.
+
+2.3 HTTPS
+Configure:
+Let's Encrypt
+automatic certificate renewal
+HTTPS redirects
+secure cookies
+production CORS/CSRF settings
+
+Stage 3 — First Production Deployment
+Goal
+Deploy the existing application exactly as tested during the production simulation, no docker yet.
+Deploy:
+Django
+React build
+PostgreSQL
+Redis
+Celery
+Cloudflare R2
+Nginx
+Daphne
+At completion, the application should already be usable on the public internet.
+
+3.1 Deployment Process
+Establish a repeatable deployment workflow.
+Typical sequence:
+Pull latest source
+Install/update dependencies
+Apply migrations
+Build frontend
+Collect static files
+Restart services
+Verify deployment
+Document this process before automating it.
+
+3.2 Production Validation
+Repeat the full application test suite on the live server.
+Verify: uploads, deletions, PDF parsing, Celery, email, OAuth, WebSockets, R2 integration, logging
+Stage 4 — Operational Concerns
+Goal
+Prepare the system for long-term maintenance.
+
+4.1 Backups
+Create backup policies.
+Database:
+automated daily backups
+Server:
+optional VPS snapshots
+Storage:
+handled by Cloudflare R2 durability
+
+4.2 Logging
+Centralize application logs.
+Monitor:
+Django
+Celery
+Nginx
+system logs
+Ensure logs rotate automatically.
+
+4.3 Monitoring
+Introduce monitoring tools.
+Recommended additions:
+Sentry for application errors
+uptime monitoring
+server resource monitoring
+Monitor:
+CPU
+RAM
+disk usage
+Celery queue health
+PostgreSQL health
+
+4.4 Security Hardening
+Review production security.
+Verify:
+DEBUG disabled
+strong SECRET_KEY
+restricted environment files
+firewall configuration
+database inaccessible from public internet
+Redis inaccessible from public internet
+HTTPS everywhere
+secure cookies
+regular package updates
+Direct Server IP Bypass
+Resource Exhaustion
+WebSockets Exhaustion
+
+Stage 5 — Containerization Evaluation & Migration
+5.1 — Identify the reason
+Document:
+  Why are we introducing Docker?
+  What current problem does it solve?
+  What deployment/reliability benefit do we gain?
+If there isn't a good answer, stop here.
+
+5.2 — Container architecture
+Containerize:
+  Nginx
+  Daphne/Django
+  Celery
+  Redis
+Keep:
+  PostgreSQL → external
+  Cloudflare → external
+  R2 → external
+
+5.3 — Build containers
+Create:
+  Dockerfile
+  compose.yaml
+  .dockerignore
+and container-specific configuration.
+
+5.4 — Local container testing
+Run the complete stack locally:
+  Nginx
+  Daphne
+  Celery
+  Redis
+while using your existing external/development PostgreSQL as appropriate.
+Verify:
+  Django
+  React
+  static files
+  Celery
+  Redis
+  WebSockets
+  PDF processing
+  R2
+
+5.5 — Staging
+Deploy the same containers to a staging environment.
+Verify the application behaves like production.
+
+5.6 — Production migration
+Only after staging works:
+Build image -> Deploy image -> Run migrations -> Health checks -> Switch traffic
+PostgreSQL remains outside the containers.
+
+5.7 — Operational documentation
+Document:
+  build
+  deployment
+  rollback
+  container updates
+  logs
+  health checks
+  resource limits
+  backup interaction

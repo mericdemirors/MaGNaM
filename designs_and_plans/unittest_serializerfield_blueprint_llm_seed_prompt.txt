@@ -1,0 +1,39 @@
+I have a django projects where I want to write unittests for serializers now and I have the BaseTestCases. Below are some examples I alread did so you can understand the logic and the structure to create unittets to check if serializers process and return the correct fields:
+
+# SERIALIZERS FROM AN EXAMPLE DONE NAME SPACE
+# SERIALIZERS FROM AN EXAMPLE DONE NAME SPACE
+# SERIALIZERS FROM AN EXAMPLE DONE NAME SPACE
+# SERIALIZERS FROM AN EXAMPLE DONE NAME SPACE
+# SERIALIZERS FROM AN EXAMPLE DONE NAME SPACE
+
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+# EXAMPLES OF THE CORRESPONDING SERIALIZER FIELD CHECKING UNITTESTS
+
+Now I want to write the unittetss for the models under the XXXXX namespace
+
+I have below base test cases:
+XXXXXBaseTestCase1
+XXXXXBaseTestCase2
+XXXXXBaseTestCase3
+XXXXXBaseTestCase4
+XXXXXBaseTestCase5
+
+# SERIALIZERS FROM THE NEW XXXXX NAME SPACE THAT YOU NEED TO WRITE THE SERIALIZER FIELD CHECK UNIT TESTS FOR
+# SERIALIZERS FROM THE NEW XXXXX NAME SPACE THAT YOU NEED TO WRITE THE SERIALIZER FIELD CHECK UNIT TESTS FOR
+# SERIALIZERS FROM THE NEW XXXXX NAME SPACE THAT YOU NEED TO WRITE THE SERIALIZER FIELD CHECK UNIT TESTS FOR
+# SERIALIZERS FROM THE NEW XXXXX NAME SPACE THAT YOU NEED TO WRITE THE SERIALIZER FIELD CHECK UNIT TESTS FOR
+# SERIALIZERS FROM THE NEW XXXXX NAME SPACE THAT YOU NEED TO WRITE THE SERIALIZER FIELD CHECK UNIT TESTS FOR
+
+Implement the XXXXX namespace Serializer field checking classes using the above codes as reference. Pay attention to the structure and the coding style.
+
+Below are the list of unittests you need to code, some serializes the object from self.create_random_valid_object some serializers a valid data from self.get_random_valid_data
+
+Test.....1Fields
+Test.....2Fields
+Test.....3Fields
+Test.....4Fields
+Test.....5Fields

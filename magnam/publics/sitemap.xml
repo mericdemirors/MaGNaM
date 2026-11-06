@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+
+  <url>
+    <loc>https://studiomagnam.com/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <!-- Public Content -->
+
+  <url>
+    <loc>https://studiomagnam.com/manga/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://studiomagnam.com/portfolio/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://studiomagnam.com/competition/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://studiomagnam.com/about/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <!-- Login / Registration -->
+
+  <url>
+    <loc>https://studiomagnam.com/account/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <!-- Privacy & Terms Pages -->
+  <url>
+    <loc>https://studiomagnam.com/privacy/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+  <url>
+    <loc>https://studiomagnam.com/terms/</loc>
+    <lastmod>2026-08-30</lastmod>
+  </url>
+
+</urlset>

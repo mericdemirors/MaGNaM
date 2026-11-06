@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1200" />
+  <title>404 page not found</title>
+  <style>
+    /* Light Theme (Default) */
+    :root {
+        --bg-app: #F7F9F8;
+        --text-primary: #4f6660ff;
+        --text-secondary: #4A5A56;
+        --accent-primary: #9FD3C7;
+    }
+
+    /* Dark Theme */
+    @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-app: #2c2c2cff;
+          --text-primary: #cececeff;
+          --text-secondary: #a1a1a1ff;
+          --accent-primary: #247464ff;
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: var(--bg-app);
+        color: var(--text-primary);
+        font-family: "CCWildWordsLower Regular", "Noto Sans JP", sans-serif;
+        font-size: 1.125rem; /* md size */
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .ascii-art {
+        color: var(--accent-primary);
+        font-family: monospace;
+        font-size: clamp(0.5rem, 1.8vw, 1rem);
+        line-height: 1.2;
+        white-space: pre;
+        user-select: text;
+        width: fit-content;  /* Shrinks the element's container to match the widest line */
+        text-align: left;    /* Ensures all lines align to the left inside the block */
+}
+
+    .url-notice {
+        color: var(--text-secondary);
+        font-size: 1rem; /* sm size */
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        max-width: 600px;
+        width: 100%;
+        text-align: left; /* Left aligns the text */
+    }
+
+    .missing-path {
+        color: var(--accent-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <pre class="ascii-art">
+        🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲◼️◻️◾️◽️◾️▪️▫️▪️▫️
+        🔲🏝🎀♨️〽️🧪🍙🔅🍥🏵🍏🗺✒️🗯📝🎬🍵🪭🍤🎊🪻🍃🌲🍱🍣🪉⛩🍡🖌🔖🌉🌄🥮🍄🍢🎏🩰🌁🐢
+        🔲🪷💮🪸🪭🫛🪻🪼🍋‍🟩🐦‍🔥💬🗯💭🎴🀄️🃏🟩🟢⚜️🔱❇️✳️🔰〽️🔅♨️💢✴️💮💚✏️📝🖍⛲️✒️✂️📏🔖📖
+        🔲🐦‍🔥🔰🖼⚜️🏖🏕🫧🍓📖🔳🔳🪄🐸🪸💚🏞💭🍉🟩🎻🏔🍂🖍🥝🌆🪴🎼✂️🎖🌌🥟🔳🔳🎇🍈🧃🍝👒🗺🎼🗻
+        🔲👑🃏🌅🌟🍋‍🟩🔮💮🪷🔳🔳🔳🐲💬🍜🪅🎴🔳🔳🔳🔳🔳🔳✍🏻🌋🎉🏮🌑💢✨🔳🔳🔳🧭🦚⛲️🛤📗❇️🎍🎴
+        🔲🎨🫛🪼🌠🏡🍘🏙🔳🔳🔳🔳🀄️✳️🛸✏️🔳🔳🔳🫜📏🔳🔳🔳🎑🐍🍚🗾🌕🔳🔳🔳🔳🐉🎭🛣🏜🎋🗽🍡🏞🌑🏝
+        🔲🏯🟢🌃🍪🧩🍀🔳🔳🔳🔳🔳🍁🥑🗻🌿🔳🔳❄️🥠🔱🎼🔳🔳🏮🎖🏅📝🔳🔳🔳🔳🔳🌇🌟🍝🦚🏯🍱🏙🍲🖍🎊🛸
+        🔲🎍🏙🫧🎋🐦‍🔥🔳🔳🍉🎏🔳🔳📖🪄🎨🎆🔳🔳🪭🖌🖼🌄🔳🔳🏞🀄️🌴🔳🔳🗽🏝🔳🔳✴️🎴🍥🫜🌕🪼🌅🍏🍉🍜🌉📗
+        🔲🐍🌁🪉🩰🔳🔳📗🌃🧪🔳🔳🏵🍃🔖❄️🔳🔳🌲👒✳️🍵🔳🔳🏔🎊🔳🔳🎭🥟🍁🔳🔳👑🍲🐲✍🏻🌠🍄🎑🌇🍚🩰🌁✏️
+        🔲⛩✏️📏🎇🔳🔳🔳🔳🔳🔳🔳🔳🔳🪅🧭🔳🔳✨🟩🌌🌋🔳🔳⚜️🥝🔳🔳🔳🔳🔳🔳🔳🔳🔳🌿🍂🍏🟢🪼🌟🏅🪷🐍🍄
+        🔲🍀🖍🌑✂️🔳🔳🔳🔳🔳🔳🔳🔳🔳🐢🛣🔳🔳🍚🍋‍🟩🥠🎬🔳🔳🍘🎑🔳🔳🔳🔳🔳🔳🔳🔳🔳🪻🪷🗺⛲️🍵🍣📏🫛🍁👑
+        🔲🎻🏜🍣🃏🍜✒️🥮🍙〽️🔳🔳🫛🎉💭🛸🔳🔳🔳🍢🧃🔳🔳🔳💚🏡🗻🥑🔰🔅🎤🔳🔳🍚🎻🗽🎆🌴🎏🎆🪸🖌✳️🏕🌉🍝🥠
+        🔲✨🌠🥮🌄🌃🌑🦚⛩🎬🔳🔳〽️👒🫛🥟🩰🔳🔳🔳🔳🔳🔳🏔🛣⚜️🪴📝🌕🎤🎭🔳🔳🥠🐲🌟🍥💬🍤📝🧭🧩🍀🌌💢🖼⛩🗽
+        🔲🍘🍲🎊🌋🌅🥝💮🔱🏝🥑🍓🪷🏕🔅🍄🃏🍝🍈🖌🧩🪭💚🐦‍🔥🛸🪄🍂🀄️🌇✒️🍁🪼🌲🧪✂️🖼🍱🏙🎇🍪🪻🪭🔖🥠🐸🛣🍱🏡🎋
+        🔲🖍🌌🍙🐍🏜🏮🟩🪻🧭✳️🧃🫧🍋‍🟩🍉🎋✴️🍏✏️🍵♨️❄️👑🪸🛤📏✍🏻🍜🪉🗺🍀🌉🌁⛲️🔮🍪🔖🐉🎼♨️✨❄️🥝🪴👑🐲🐉🦚🎻
+        🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲🔲◼️◻️◾️◽️◾️▪️▫️▪️▫️
+    </pre>
+
+    <p class="url-notice">
+        <span id="url-display" class="missing-path"></span> doesn't exist
+    </p>
+  </main>
+
+  <script>
+    // Dynamically safely set full URL string without innerHTML injection
+    document.getElementById('url-display').textContent = window.location.href;
+  </script>
+
+</body>
+</html>

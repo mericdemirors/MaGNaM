@@ -1,0 +1,37 @@
+I have a django projects where I want to write unittests now and I started with the BaseTestCase. Below are some examples I alread did so you can understand the logic and the structure:
+
+# EXAMPLE DJANGO MODELS FROM OTHER NAME SPACES
+# EXAMPLE DJANGO MODELS FROM OTHER NAME SPACES
+# EXAMPLE DJANGO MODELS FROM OTHER NAME SPACES
+# EXAMPLE DJANGO MODELS FROM OTHER NAME SPACES
+# EXAMPLE DJANGO MODELS FROM OTHER NAME SPACES
+
+Now I want to write the BaseTestCases for the models under the XXXXX namespace
+
+# DJANGO MODELS FROM THE TARGET NAME SPACE
+# DJANGO MODELS FROM THE TARGET NAME SPACE
+# DJANGO MODELS FROM THE TARGET NAME SPACE
+# DJANGO MODELS FROM THE TARGET NAME SPACE
+# DJANGO MODELS FROM THE TARGET NAME SPACE
+
+Instructions:
+A. create these base test cases
+# XXXXBaseTestCase
+# XXXXBaseTestCase
+# XXXXBaseTestCase
+# XXXXBaseTestCase
+# XXXXBaseTestCase
+
+B. follow the structure from the above examples
+setUp --> create temp file space, user variables etc
+tearDown --> clear the temp file space
+get_random_X_value(seed) --> returns a valid raw value for the X field
+get_random_valid_data(seed) --> create 3 dicts
+    original_vals: base values, acts like user input from frontend, ready data to pass to serializers as (data=original_vals). Ground truth for controling the db creations/updates
+    vals_to_send_request: processed values, acts like ready data to send via request to the views
+    vals_to_create_from: ready data to call objects.create() function with
+create_random_valid_object(seed) --> creates a db object and returns the necessities for testing
+assert_db_stored_values_match_expected_dict(instance, original_vals) --> checks the db state by comparing instance fields with original_vals
+assert_db_retrieved_dict_match_db_stored_values(retrieved_data, instance) --> checks the db retrieval by comparing retrieved instance fields with instance from the db
+
+Implement the Base Test Case classes using the above codes as reference. Pay attention to the structure and the coding style.

@@ -1,0 +1,10 @@
+staticfiles/
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.py[cod]
+
+frontend/node_modules/
+frontend/static/frontend/
