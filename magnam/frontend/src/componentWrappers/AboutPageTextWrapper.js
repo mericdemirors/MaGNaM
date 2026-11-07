@@ -7,7 +7,6 @@ import {
     FaGithub,
     FaEnvelope,
 } from "react-icons/fa"; // FontAwesome examples
-import MagnamIconPNG from "../../static/images/favicon.webp"; // your custom icon component
 
 const ClickableLink = ({ url, theme }) => {
     // Defensive check to ensure url exists
@@ -288,48 +287,48 @@ export function AboutPageTextWrapperTR() {
                 </p>
             </div>
             {/* OTHER CONTENTS ------------------------------------------------- */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
-            {/* use ClickableLink */}
             <div style={sh}>
                 <p style={t}> Diğer MaGNaM'ları nerede bulabilirsiniz?</p>
+
                 <FaDiscord style={i} />
-                <p style={l}>discord</p>
+                <a
+                    href="https://discord.gg/Z3s2WYv6QG"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    discord
+                </a>
 
                 <FaYoutube style={i} />
-                <p style={l}>youtube</p>
+                <a
+                    href="https://www.youtube.com/@studiomagnam"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    youtube
+                </a>
 
                 <FaInstagram style={i} />
-                <p style={l}>instagram</p>
-
-                <div
-                    style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: theme.spacing.sm,
-                    }}
+                <a
+                    href="https://www.instagram.com/studiomagnam/"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
-                    <img
-                        src={MagnamIconPNG}
-                        alt="magnam"
-                        style={{
-                            width: theme.spacing.lg,
-                            height: theme.spacing.lg,
-                        }}
-                    />
-                </div>
-
-                <p style={l}>kanbanlar</p>
+                    instagram
+                </a>
 
                 <FaGithub style={i} />
-                <p style={l}>github</p>
+                <a
+                    href="https://github.com/mericdemirors/MaGNaM"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    github
+                </a>
             </div>
             {/* FAQ ------------------------------------------------- */}
             <div style={sh}>
@@ -639,37 +638,48 @@ export function AboutPageTextWrapperEN() {
             {/* OTHER CONTENTS ------------------------------------------------- */}
             <div style={sh}>
                 <p style={t}> Where to find other MaGNaMs?</p>
+
                 <FaDiscord style={i} />
-                <p style={l}>discord</p>
+                <a
+                    href="https://discord.gg/Z3s2WYv6QG"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    discord
+                </a>
 
                 <FaYoutube style={i} />
-                <p style={l}>youtube</p>
+                <a
+                    href="https://www.youtube.com/@studiomagnam"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    youtube
+                </a>
 
                 <FaInstagram style={i} />
-                <p style={l}>instagram</p>
-
-                <div
-                    style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: theme.spacing.sm,
-                    }}
+                <a
+                    href="https://www.instagram.com/studiomagnam/"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
                 >
-                    <img
-                        src={MagnamIconPNG}
-                        alt="magnam"
-                        style={{
-                            width: theme.spacing.lg,
-                            height: theme.spacing.lg,
-                        }}
-                    />
-                </div>
-
-                <p style={l}>kanbans</p>
+                    instagram
+                </a>
 
                 <FaGithub style={i} />
-                <p style={l}>github</p>
+                <a
+                    href="https://github.com/mericdemirors/MaGNaM"
+                    style={l}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    github
+                </a>
             </div>
+
             {/* FAQ ------------------------------------------------- */}
             <div style={sh}>
                 <p style={t}> Questions to MaGNaM</p>
